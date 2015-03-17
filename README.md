@@ -1,4 +1,4 @@
-# spring-security-rest#
+# Securing RESTful APIs using Spring Security#
 
 ## Introduction##
 
