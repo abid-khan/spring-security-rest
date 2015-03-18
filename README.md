@@ -1,17 +1,18 @@
 # Securing RESTful APIs using Spring Security#
 
-## Introduction##
-The primary goal of this project/example is showcase how [Spring Security](http://projects.spring.io/spring-security/) can be used to secure RESTful APIs. This project is based on [Spring Boot](http://projects.spring.io/spring-boot/) and mven is used for build purpose.
+## Abstract##
+The objective of this project/example is showcase how [Spring Security](http://projects.spring.io/spring-security/) can be used to secure RESTful APIs. This project is based on [Spring Boot](http://projects.spring.io/spring-boot/) and mven is used for build purpose.
 
-Also I have used two different sets of URL in this project
+## Introduction ##
+Before we actuallys take a deep dive, we should first dicuss how session is managed in an enterprise applicaiton. 
+A user session is initiated and an unique id is generated once user  successfully logs into the system. The same session id is send to the server in next subsequent requests by the client. The user session is destroyed once user logs out or it is idle for more than specified duration. This whole process is statefull.
+
+As REST advocates stateless session mechanism, to have above mentioned behaviour we have  classified URLs in two different categories. 
  * One set starts with root context i.e. "/". This set of URLs use statefull session.
  * Second set starts with "/api". This set of URLs use stateless session.
- * 
 
-In this project, there are two different steps to achive the goal.
-  * Authentication 
-  * Authorization
-
+Also, to we have a scheduler configured which deletes expired or idle authorization tokens from the system. The frequency of the scheduler is configurable and discussed in detail in "How to Use" section.
+ 
 
 ## Prerequisites ##
 One must have knowledge on bellow mentioned tools and technologies.
@@ -19,9 +20,16 @@ One must have knowledge on bellow mentioned tools and technologies.
   * [Spring Security](http://projects.spring.io/spring-security/)
   * [Maven](http://maven.apache.org/)
   * [Thymeleaf](http://www.thymeleaf.org/)
+
+## Solution ##
+In this project, we have classified the whole process into two different categories
+  * Authentication
+  * Authorization
+
+
   
 ### Authentication ###
-In this phase is used to authenticate the user. User has to enter valid user name and password to login successfully. On successfull login , a authentication token is generated and added in response header. In this example/project it is reffered as X-AuthToken. This step uses statefull session creation policy. This step is tipycally consists of bellow sequence
+This process uses statefull session creation mechanism to authenticate the user and to generate authorization token. On successfull login, a authentication token is generated and added in response header. In this example/project it is reffered as X-AuthToken. This step uses statefull session creation policy. This step is tipycally consists of bellow sequence
 
   * User opens home page and clicks in log in page
   * User provides user name and password and clicks submit button
@@ -130,7 +138,7 @@ public class AuthenticationSuccessHandlerImpl extends
 Note: Above configuration is marked with @Order(1). This is done to ensure that this configuration is executed before RESTful API seccurity configuration.
 
 ### Authorization ###
-In this step RESTful resources are authorized for access. This authorization is done against a valid token. This process is mainly achieved in "TokenBasedAuthenticationFilter"  filter.  This step is tipycally consists of bellow sequence
+In this step RESTful resources are authorized against a valid authorization token. This process is mainly achieved in "TokenBasedAuthenticationFilter"  filter.  This step is tipycally consists of bellow sequence
 
  * Token is fetched from request header
  * Then lookup is done to check if user exists in system for current token
@@ -202,18 +210,13 @@ public class TokenBasedAuthenticationFilter extends
 			IOException, ServletException {
 
 		AbstractAuthenticationToken userAuthenticationToken = null;
-		try {
-			request.setAttribute(TOKEN_FILTER_APPLIED, Boolean.TRUE);
+		request.setAttribute(TOKEN_FILTER_APPLIED, Boolean.TRUE);
 
-			String token = request.getHeader(Constant.HEADER_SECURITY_TOKEN);
-			userAuthenticationToken = authenticateByToken(token);
-			if (userAuthenticationToken == null)
-				throw new AuthenticationServiceException(MessageFormat.format(
-						"Error | {0}", "Bad Token"));
-		} catch (Exception ex) {
-			logger.error("Failed to authenticate user  due to { }", ex);
+		String token = request.getHeader(Constant.HEADER_SECURITY_TOKEN);
+		userAuthenticationToken = authenticateByToken(token);
+		if (userAuthenticationToken == null){
+			throw new AuthenticationServiceException("Bad Token");
 		}
-
 		return userAuthenticationToken;
 	}
 
@@ -270,12 +273,37 @@ public class TokenBasedAuthenticationFilter extends
 
 ```
 
-
-
-
-
-
-
 ## How to Use ##
+To use this sample application you have to have  bellow mentioned configiration in application.properties file. This file needs ot be available in classpath.
 
-## Conclusion##
+```properties
+# DataSource settings: set here configurations for the database connection
+spring.datasource.url = jdbc:mysql://localhost:3306/boot_security
+spring.datasource.username = root
+spring.datasource.password = welcome
+spring.datasource.driverClassName = com.mysql.jdbc.Driver
+
+# Specify the DBMS
+spring.jpa.database = MYSQL
+
+# Show or not log for each sql query
+spring.jpa.show-sql = true
+
+# Hibernate settings are prefixed with spring.jpa.hibernate.*
+spring.jpa.hibernate.ddl-auto = update
+spring.jpa.hibernate.dialect = org.hibernate.dialect.MySQL5Dialect
+spring.jpa.hibernate.naming_strategy = org.hibernate.cfg.ImprovedNamingStrategy
+
+
+#Security Configuration
+#Controller URL use to write post login success logic
+auth.success.url=/hello
+#auth.success.url=/auth/success
+#Controller URL use to write post login failure logic
+auth.failure.url=/auth/failure
+
+#Cron expression to delete expired or idle session. Here it executes every 30 minutes
+auth.cron.session.timeout=0 30 * * * *
+#Session timeout duration
+auth.token.timeout.interval=30
+```
