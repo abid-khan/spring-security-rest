@@ -22,9 +22,10 @@ One must have knowledge on bellow mentioned tools and technologies.
   * [Thymeleaf](http://www.thymeleaf.org/)
 
 ## Solution ##
-In this project, we have classified the whole process into two different categories
+To achieve session management goal, we have differentiate whole process into three distinct process 
   * Authentication
   * Authorization
+  * Clean up of expired/idle tokens
 
 
   
@@ -36,32 +37,14 @@ This process uses statefull session creation mechanism to authenticate the user 
   * User is authenticated  and on success a authentication token is generated and added to reponse header. User forwarded to      desired page
   * On authentication failure, user is forwarded to login page with error
  
-#### MVC Configuration ####
-In this configuration , URLs are mapped to view.
-
-```java
-@Configuration
-public class MvcConfig extends WebMvcConfigurerAdapter {
-
-	@Override
-	public void addViewControllers(ViewControllerRegistry registry) {
-		registry.addViewController("/home").setViewName("home");
-		registry.addViewController("/").setViewName("home");
-		registry.addViewController("/hello").setViewName("hello");
-		registry.addViewController("/login").setViewName("login");
-		registry.addViewController("/api/home").setViewName("api");
-	}
-
-}
-```
 
 #### Security Configuration ####
-First [Spring Security](http://projects.spring.io/spring-security/) is configured for first set of URLs which are in scope of stateful session. URLs like "/" and "/home"  are allowed to be accessed without authorization. Login page is ocnfigured by "/login".  Apart from these, there are authenticationSuccessHandler and authenticationFailureHandler.
+First [Spring Security](http://projects.spring.io/spring-security/) is configured for first set of URLs which are in scope of stateful session. URLs like "/" and "/home"  are allowed to be accessed without authorization. Login page is configured by "/login".  Apart from these, there are authenticationSuccessHandler and authenticationFailureHandler.
 
  * authenticationSuccessHandler is used to allow to place some cusotm code for post login success.
  * authenticationFailureHandler is used to allow to place some cusotm code for post login failure.
 
-Also user detail service is  configured to validate user in system.
+Also user detail service is  configured to validate user in system. For more detail on Spring Security configuration please refer [Spring Security](http://projects.spring.io/spring-security/).
 
 ```java
 @Configuration
@@ -107,7 +90,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 #### Authorization Token Generation ####
-Authorization token is generated in login success handler.  The token is  generation logic is placed in "AuthTokenGeneratorServiceImpl" class.
+Authorization token is generated in login success handler.  The token is  generation logic is placed in AuthTokenGeneratorServiceImpl class.
 
 ```java
 public class AuthenticationSuccessHandlerImpl extends
@@ -148,6 +131,8 @@ In this step RESTful resources are authorized against a valid authorization toke
 
 Most important is the security configuration for RESTful resources. Note that RESTful resources starts with "/api". also this configured with order 2.
 
+#### Security Configuration ####
+
 ```java
 @Configuration
 @EnableWebMvcSecurity
@@ -182,7 +167,11 @@ public class APISecurityConfig extends WebSecurityConfigurerAdapter {
 				authTokenGeneratorService, authTokenService);
 	}
 }
+```
 
+#### Authentication Filter ####
+
+```java
 public class TokenBasedAuthenticationFilter extends
 		AbstractAuthenticationProcessingFilter {
 
@@ -272,6 +261,7 @@ public class TokenBasedAuthenticationFilter extends
 }
 
 ```
+
 
 ## How to Use ##
 To use this sample application you have to have  bellow mentioned configiration in application.properties file. This file needs ot be available in classpath.
