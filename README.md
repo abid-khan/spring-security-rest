@@ -1,4 +1,4 @@
-# Securing RESTful APIs using Spring Security#
+# Securing REST APIs using Spring Security#
 
 # Table of Content
 
