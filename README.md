@@ -1,5 +1,20 @@
 # Securing RESTful APIs using Spring Security#
 
+# Table of Content
+
+- [**Abstract**](#abstract)
+- [**Introduction**](#introduction)
+- [**Prerequisites**](#prerequisites)
+- [**Solution**](#solution)
+  - [Authorization](#authorization)
+    - [Security Configuration](#security-configuration)
+    - [Authorization Token Generation](#authorization-token-generation)
+  - [Authentication](#authentication)
+    - [Security Configuration](#security-configuration)
+    - [Authentication Filter](#authentication-filter)
+- [**How to Use**](#how-to-use)
+
+
 ## Abstract##
 The objective of this project/example is showcase how [Spring Security](http://projects.spring.io/spring-security/) can be used to secure RESTful APIs. This project is based on [Spring Boot](http://projects.spring.io/spring-boot/) and mven is used for build purpose.
 
@@ -264,13 +279,13 @@ public class TokenBasedAuthenticationFilter extends
 
 
 ## How to Use ##
-To use this sample application you have to have  bellow mentioned configiration in application.properties file. This file needs ot be available in classpath.
+Integration of this project/example is very simple. As mentioned earlier this project is based on [Spring Boot](http://projects.spring.io/spring-boot/) and structured in such a way that one has to update some  configurations in application.proprties file located in classpath (i.e. /main/resources/).
 
 ```properties
 # DataSource settings: set here configurations for the database connection
-spring.datasource.url = jdbc:mysql://localhost:3306/boot_security
-spring.datasource.username = root
-spring.datasource.password = welcome
+spring.datasource.url = jdbc:mysql://localhost:3306/[data base name]
+spring.datasource.username = [data base user name]
+spring.datasource.password = [data base password]
 spring.datasource.driverClassName = com.mysql.jdbc.Driver
 
 # Specify the DBMS
