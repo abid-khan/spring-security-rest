@@ -283,9 +283,9 @@ Integration of this project/example is very simple. As mentioned earlier this pr
 
 ```properties
 # DataSource settings: set here configurations for the database connection
-spring.datasource.url = jdbc:mysql://localhost:3306/[data base name]
-spring.datasource.username = [data base user name]
-spring.datasource.password = [data base password]
+spring.datasource.url = jdbc:mysql://localhost:3306/[database name]
+spring.datasource.username = [database user name]
+spring.datasource.password = [database password]
 spring.datasource.driverClassName = com.mysql.jdbc.Driver
 
 # Specify the DBMS
