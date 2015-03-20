@@ -315,7 +315,7 @@ auth.token.timeout.interval=30
 
 To run the application execute below command from command prompt.
 ```mvn
-mvn spring-boot:run"
+mvn spring-boot:run
 
 ```
 To debug the same,execute below command.
