@@ -312,3 +312,14 @@ auth.cron.session.timeout=0 30 * * * *
 #Session timeout duration
 auth.token.timeout.interval=30
 ```
+
+To run the application execute below command from command prompt.
+```mvn
+mvn spring-boot:run"
+
+```
+To debug the same,execute below command.
+```mvn
+mvn spring-boot:run -Drun.jvmArguments="-Xdebug -Xrunjdwp:transport=dt_socket,server=y,suspend=y,address=8080"
+
+```
