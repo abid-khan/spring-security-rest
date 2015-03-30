@@ -27,6 +27,7 @@ As REST advocates stateless session mechanism, to have above mentioned behaviour
  * Second set starts with "/api". This set of URLs use stateless session.
 
 Also, to we have a scheduler configured which deletes expired or idle authorization tokens from the system. The frequency of the scheduler is configurable and discussed in detail in "How to Use" section.
+
  
 
 ## Prerequisites ##
@@ -34,13 +35,14 @@ One must have knowledge on bellow mentioned tools and technologies.
   * [Spring Boot](http://projects.spring.io/spring-boot/)
   * [Spring Security](http://projects.spring.io/spring-security/)
   * [Maven](http://maven.apache.org/)
-  * [Thymeleaf](http://www.thymeleaf.org/)
+  * [AngularJS](https://angularjs.org/)
 
 ## Solution ##
 To achieve session management goal, we have differentiate whole process into three distinct process 
   * Authentication
   * Authorization
   * Clean up of expired/idle tokens
+
 
 
   
