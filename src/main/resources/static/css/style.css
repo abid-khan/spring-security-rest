@@ -1,0 +1,71 @@
+body {
+    background: none repeat scroll 0 0 #0ca3d2;
+    color: #404040;
+    font: 13px/20px "Lucida Grande",Tahoma,Verdana,sans-serif;
+}
+body {
+    line-height: 1;
+}
+
+.container {
+    margin: 3px auto;
+    width: 332px;
+    float: none;
+    list-style: none;
+    position: relative;
+    padding: 0;
+}
+
+article, aside, details, figcaption, figure, footer, header, hgroup, menu, nav, section {
+    display: block;
+}
+html, body, div, span, applet, object, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, pre, a, abbr, acronym, address, big, cite, code, del, dfn, em, img, ins, kbd, q, s, samp, small, strike, strong, sub, sup, tt, var, b, u, i, center, dl, dt, dd, ol, ul, li, fieldset, form, label, legend, table, caption, tbody, tfoot, thead, tr, th, td, article, aside, canvas, details, embed, figure, figcaption, footer, header, hgroup, menu, nav, output, ruby, section, summary, time, mark, audio, video {
+    border: 0 none;
+    font: inherit;
+    margin: 0;
+    padding: 0;
+    vertical-align: baseline;
+}
+
+.container ul {
+	list-style: none;
+	padding:0;
+	margin:0;
+}
+
+.container li {
+	float: left;
+	border: 1px solid;
+	border-bottom-width: 0;
+	margin: 0 0.5em 0 0;
+}
+
+.container li a {
+	padding: 0 1em;
+}
+
+.view-container {
+	border: 1px solid;
+	clear: both;
+}
+
+
+
+
+.container ul li a:hover, .container ul li a.active{
+   color:#ccc;
+   background: white;
+   top: 0;
+}
+
+
+.view-container {
+    background: none repeat scroll 0 0 white;
+    border-radius: 3px;
+    box-shadow: 0 0 200px rgba(255, 255, 255, 0.5), 0 1px 2px rgba(0, 0, 0, 0.3);
+    margin: 0 auto;
+    padding: 20px;
+    position: relative;
+    width: 310px;
+}
+

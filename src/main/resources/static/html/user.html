@@ -1,0 +1,8 @@
+<div data-ng-show='!authenticated'>Please log in to see users</div>
+<div data-ng-show='authenticated'>
+	<ul>
+		<li>Email</li>
+		<li ng-repeat="user in users">{{user.email}}</li>
+	</ul>
+</div>
+	
