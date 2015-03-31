@@ -23,10 +23,10 @@ Before we actuallys take a deep dive, we should first dicuss how session is mana
 A user session is initiated and an unique id is generated once user  successfully logs into the system. The same session id is send to the server in next subsequent requests by the client. The user session is destroyed once user logs out or it is idle for more than specified duration. This whole process is statefull.
 
 As REST advocates stateless session mechanism, to have above mentioned behaviour we have  classified URLs in two different categories. 
- * One set starts with root context i.e. "/". This set of URLs use statefull session.
- * Second set starts with "/api". This set of URLs use stateless session.
+ * One set starts with root context i.e. `/`. This set of URLs use statefull session.
+ * Second set starts with `/api`. This set of URLs use stateless session.
 
-Also, to we have a scheduler configured which deletes expired or idle authorization tokens from the system. The frequency of the scheduler is configurable and discussed in detail in "How to Use" section.
+Also, to we have a scheduler configured which deletes expired or idle authorization tokens from the system. The frequency of the scheduler is configurable and discussed in detail in `How to Use` section.
 
  
 
@@ -47,7 +47,7 @@ To achieve session management goal, we have differentiate whole process into thr
 
   
 ### Authentication ###
-This process uses statefull session creation mechanism to authenticate the user and to generate authorization token. On successfull login, a authentication token is generated and added in response header. In this example/project it is reffered as X-AuthToken. This step uses statefull session creation policy. This step is tipycally consists of bellow sequence
+This process uses statefull session creation mechanism to authenticate the user and to generate authorization token. On successfull login, a authentication token is generated and added in response header. In this example/project it is reffered as `X-AuthToken`. This step uses statefull session creation policy. This step is typically consists of bellow sequence
 
   * User opens home page and clicks in log in page
   * User provides user name and password and clicks submit button
@@ -56,7 +56,7 @@ This process uses statefull session creation mechanism to authenticate the user 
  
 
 #### Security Configuration ####
-First [Spring Security](http://projects.spring.io/spring-security/) is configured for first set of URLs which are in scope of stateful session. URLs like "/" and "/home"  are allowed to be accessed without authorization. Login page is configured by "/login".  Apart from these, there are authenticationSuccessHandler and authenticationFailureHandler.
+First [Spring Security](http://projects.spring.io/spring-security/) is configured for first set of URLs which are in scope of stateful session. URLs like `/` and `/home`  are allowed to be accessed without authorization. Login page is configured by `/login`.  Apart from these, there are `authenticationSuccessHandler` and `authenticationFailureHandler`.
 
  * authenticationSuccessHandler is used to allow to place some cusotm code for post login success.
  * authenticationFailureHandler is used to allow to place some cusotm code for post login failure.
@@ -107,7 +107,7 @@ public class MvcSecurityConfig extends WebSecurityConfigurerAdapter {
 }
 ```
 #### Authorization Token Generation ####
-Authorization token is generated in login success handler.  The token is  generation logic is placed in AuthTokenGeneratorServiceImpl class.
+Authorization token is generated in login success handler.  The token is  generation logic is placed in `AuthTokenGeneratorServiceImpl` class.
 
 ```java
 public class AuthenticationSuccessHandlerImpl extends
@@ -138,7 +138,7 @@ public class AuthenticationSuccessHandlerImpl extends
 Note: Above configuration is marked with @Order(1). This is done to ensure that this configuration is executed before REST API seccurity configuration.
 
 ### Authorization ###
-In this step RESTful resources are authorized against a valid authorization token. This process is mainly achieved in "TokenBasedAuthenticationFilter"  filter.  This step is tipycally consists of bellow sequence
+In this step RESTful resources are authorized against a valid authorization token. This process is mainly achieved in "TokenBasedAuthenticationFilter"  filter.  This step is typically consists of bellow sequence
 
  * Token is fetched from request header
  * Then lookup is done to check if user exists in system for current token
@@ -146,7 +146,7 @@ In this step RESTful resources are authorized against a valid authorization toke
  * If user is not present, null token is returned.
  
 
-Most important is the security configuration for RESTful resources. Note that RESTful resources starts with "/api". also this configured with order 2.
+Most important is the security configuration for RESTful resources. Note that RESTful resources starts with `/api`. also this configured with order 2.
 
 #### Security Configuration ####
 
