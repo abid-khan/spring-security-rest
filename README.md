@@ -16,7 +16,7 @@
 
 
 ## Abstract##
-The objective of this project/example is showcase how [Spring Security](http://projects.spring.io/spring-security/) can be used to secure REST APIs. This project is based on [Spring Boot](http://projects.spring.io/spring-boot/) and mven is used for build purpose.
+The objective of this project/example is showcase how [Spring Security](http://projects.spring.io/spring-security/) can be used to secure REST APIs. This project is based on [Spring Boot](http://projects.spring.io/spring-boot/) and maven is used for build purpose.
 
 ## Introduction ##
 Before we actuallys take a deep dive, we should first dicuss how session is managed in an enterprise applicaiton. 
