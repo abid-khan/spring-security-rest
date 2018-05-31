@@ -1,0 +1,30 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: security
+  labels:
+    name: security
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      name: security
+  template:
+    metadata:
+      labels:
+        name: security
+    spec:
+      containers:
+        - name: security
+          image: talk2abid/security:latest
+          ports:
+            - containerPort: 8080
+              hostPort: 8080
+              name: security
+          volumeMounts:
+            - name: security-storage
+              mountPath: /var/lib/security
+      volumes:
+        - name: security-storage
+          emptyDir: {}
+
